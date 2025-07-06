@@ -1,0 +1,25 @@
+# Ignorar node_modules en todas las aplicaciones
+**/node_modules/
+
+# Ignorar los directorios de salida de la construcción
+**/dist/
+**/build/
+
+# Ignorar archivos de configuración de preconstrucción
+**/client/.next/
+**/client/out/
+**/client/public/
+
+**/server/build/
+**/server/dist/
+
+# Ignorar archivos temporales o de logs
+**/*.log
+**/*.tmp
+**/.eslintcache
+**/.cache
+
+# Ignorar archivos de dependencias de lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

@@ -1,0 +1,18 @@
+# Node.js
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Directorios de construcción
+dist/
+build/
+*.log
+*.tmp
+*.eslintcache
+
+# Archivos específicos de VSCode
+.vscode/
+
+# MongoDB
+mongodb/

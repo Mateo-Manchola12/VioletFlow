@@ -1,0 +1,26 @@
+{
+  "name": "violetflow-server",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "VioletFlow server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx --watch index.ts"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1"
+  },
+  "dependencies": {
+    "@types/morgan": "^1.9.10",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.17.0",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.8.1"
+  }
+}
