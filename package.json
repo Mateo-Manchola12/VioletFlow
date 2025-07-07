@@ -5,10 +5,11 @@
   "type": "module",
   "workspaces": [
     "server",
-    "client"
+    "client",
+    "types"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace server\" \"npm run start --workspace client\"",
+    "dev": "concurrently \"npm run dev --workspace server\" \"npm run start --workspace client\" \"npm run dev --workspace types\"",
     "pkg": "node scripts/run-in-package.js"
   },
   "devDependencies": {

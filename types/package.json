@@ -1,0 +1,18 @@
+{
+  "name": "@violetflow/types",
+  "version": "0.0.1",
+  "description": "VioletFlow common types",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

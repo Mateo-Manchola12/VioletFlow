@@ -1,5 +1,5 @@
 {
-  "name": "violetflow-server",
+  "name": "@violetflow/server",
   "version": "0.0.1",
   "type": "module",
   "description": "VioletFlow server",
@@ -9,12 +9,13 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
+    "@violetflow/types": "^0.0.1",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.35.1"
   },
   "dependencies": {
-    "@types/morgan": "^1.9.10",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "express": "^5.1.0",

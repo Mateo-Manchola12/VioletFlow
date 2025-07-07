@@ -4,6 +4,7 @@ import { Server } from 'socket.io'
 import cors from 'cors'
 import morgan from 'morgan'
 import { query } from './db/db_methods'
+import { ApiResponse, ApiResponseStatus } from '@violetflow/types/src/transport/api/response'
 
 const app = express()
 const server = createServer(app)
@@ -22,7 +23,11 @@ app.use(express.json())
 
 // Rutas HTTP
 app.get('/', (req, res) => {
-  res.status(200).send({ message: 'Bienvenido desde el servidor' })
+  const response: ApiResponse = {
+    status: ApiResponseStatus.SuccessNoData,
+    message: 'Bienvenido desde el servidor',
+  }
+  res.status(200).send(response)
 })
 
 app.get('/user', async (req, res) => {
@@ -38,7 +43,7 @@ app.get('/user', async (req, res) => {
       return void res.status(404).send({ message: 'No users found' })
 
     const firstUser = users[0] as { name: string; lastname: string; age: number }
-    res.status(200).send(firstUser)
+    res.status(200).send({ data: firstUser, status: ApiResponseStatus.SuccessWithData })
   } catch (error) {
     console.error(error)
     res.status(500).send({ message: 'Internal Server Error' })
