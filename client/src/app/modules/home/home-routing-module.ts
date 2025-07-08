@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainView } from './main-view/main-view';
+import { View } from './view/view';
 
 const routes: Routes = [
   {
     path: '',
-    component: MainView,
+    component: View,
     data: { title: 'Inicio' },
   },
 ];

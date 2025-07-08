@@ -5,9 +5,9 @@ import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-main-view',
-  templateUrl: './main-view.html',
+  templateUrl: './View.html',
 })
-export class MainView implements OnInit {
+export class View implements OnInit {
   websocketMessage!: string;
   httpMessage!: string;
   activeConections!: number;
@@ -28,18 +28,20 @@ export class MainView implements OnInit {
       this.activeConections = data.count;
     });
 
-    this.http.get<ApiResponse>('http://localhost:3000/').subscribe({
-      next: ({ message, status }) => {
-        if (status === ApiResponseStatus.SuccessNoData) {
-          this.httpMessage = message;
-        }
-      },
-    });
+    this.http
+      .get<ApiResponse>('http://localhost:3000/api/serverTesting')
+      .subscribe({
+        next: ({ message, status }) => {
+          if (status === ApiResponseStatus.SuccessNoData) {
+            this.httpMessage = message;
+          }
+        },
+      });
 
     this.http
       .get<
         ApiResponse<{ name: string; lastname: string; age: number }>
-      >('http://localhost:3000/user')
+      >('http://localhost:3000/api/serverTesting/user')
       .subscribe({
         next: ({ data, status }) => {
           if (status === ApiResponseStatus.SuccessWithData) {
@@ -47,8 +49,6 @@ export class MainView implements OnInit {
           }
         },
       });
-
-
   }
 
   ngOnDestroy(): void {

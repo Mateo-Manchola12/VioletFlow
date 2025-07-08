@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "type": "module",
   "description": "VioletFlow server",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "tsx --watch index.ts"
+    "dev": "tsx --watch src/server.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
