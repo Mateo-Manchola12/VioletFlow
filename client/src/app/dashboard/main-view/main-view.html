@@ -1,6 +1,19 @@
-<h1>VioletFlow</h1>
-<p>Mensaje recibido desde el servidor: {{ httpMessage }}</p>
-<p>Mensaje recibido desde el WebSocket: {{ websocketMessage }}</p>
-<p>Conexiones activas en el WS: {{ activeConections }}</p>
-<p>Usuario desde la base de datos: {{ user.name }} {{ user.lastname }}, Edad: {{ user.age }}</p>
-<router-outlet></router-outlet>
+<div class="w-screen max-w-screen h-screen grid grid-cols-[auto_1fr] grid-rows-[1fr_auto]">
+  <aside
+    class="row-start-1 row-end-3 col-start-1 flex flex-col bg-gradient-to-b from-primary to-white/15 bg-primary to-70% text-on-primary w-[200px] shadow-lg"
+  >
+    <a
+      class="flex items-center justify-center text-3xl px-6 py-4 border-secondary/30"
+      routerLink="home"
+    >
+      <h1>Violet<span class="text-shadow-white font-bold">Flow</span></h1>
+    </a>
+    <hr class="border-secondary/30" />
+    <nav class="flex-1"><app-nav></app-nav></nav>
+  </aside>
+  <main class="overflow-y-auto p-4">
+    <header><app-header></app-header></header>
+    <router-outlet></router-outlet>
+  </main>
+  <footer class="w-[calc(100dvw-200px)]"><app-footer></app-footer></footer>
+</div>

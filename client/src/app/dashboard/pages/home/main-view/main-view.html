@@ -1,1 +1,11 @@
 <h2>Main View</h2>
+
+<p>Mensaje recibido desde el servidor: {{ httpMessage }}</p>
+<p>Mensaje recibido desde el WebSocket: {{ websocketMessage }}</p>
+<p>Conexiones activas en el WS: {{ activeConections }}</p>
+@if (user) {
+  <p>
+    Usuario desde la base de datos: {{ user.name }} {{ user.lastname }}, Edad:
+    {{ user.age }}
+  </p>
+}
