@@ -1,7 +1,8 @@
 import { Privilege } from "../auth/privilege"
+import { ObjectId } from 'mongodb'
 
 export interface UserAccount {
-  id?: string
+  id?: ObjectId | string // MongoDB ObjectId or string
   first_name: string
   last_name: string
   email: string
@@ -11,7 +12,7 @@ export interface UserAccount {
 }
 
 export interface CompanyAccount {
-  id?: string
+  id?: ObjectId | string // MongoDB ObjectId or string
   name: string
   site: string
   size: string

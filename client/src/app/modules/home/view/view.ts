@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ApiResponse, ApiResponseStatus } from '@violetflow/types';
+import {
+  ApiResponse,
+  ApiResponseStatus,
+  UserAccount,
+} from '@violetflow/types';
 import { Socket } from 'ngx-socket-io';
 
 @Component({
@@ -11,7 +15,7 @@ export class View implements OnInit {
   websocketMessage!: string;
   httpMessage!: string;
   activeConections!: number;
-  user!: { name: string; lastname: string; age: number };
+  user!: UserAccount;
 
   constructor(
     private socket: Socket,
@@ -31,21 +35,26 @@ export class View implements OnInit {
     this.http
       .get<ApiResponse>('http://localhost:3000/api/serverTesting')
       .subscribe({
-        next: ({ message, status }) => {
-          if (status === ApiResponseStatus.SuccessNoData) {
-            this.httpMessage = message;
+        next: (response) => {
+          const { message, status } = response;
+          if (status === ApiResponseStatus.NoContent) {
+            this.httpMessage = message || 'No content available';
           }
         },
       });
 
     this.http
       .get<
-        ApiResponse<{ name: string; lastname: string; age: number }>
+        ApiResponse<UserAccount>
       >('http://localhost:3000/api/serverTesting/user')
       .subscribe({
-        next: ({ data, status }) => {
-          if (status === ApiResponseStatus.SuccessWithData) {
+        next: (response) => {
+          const { data, status, error } = response;
+
+          if (status === ApiResponseStatus.Ok) {
             this.user = data;
+          } else if (status >= 400) {
+            this.httpMessage = `Error: ${error || 'Unknown error'}`;
           }
         },
       });
