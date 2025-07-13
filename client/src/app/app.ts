@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet, Event } from '@angular/router';
+import { Session } from './modules/auth/services/session';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,17 @@ import { RouterOutlet } from '@angular/router';
   template: `<router-outlet />`,
 })
 export class App {
+  constructor(
+    private router: Router,
+    private session: Session,
+  ) {}
+
+  ngOnInit() {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        setTimeout(() => window.HSStaticMethods.autoInit(), 100);
+      }
+    });
+    this.session.setUser();
+  }
 }

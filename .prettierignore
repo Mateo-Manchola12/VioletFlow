@@ -8,7 +8,6 @@
 # Ignorar archivos de configuración de preconstrucción
 **/client/.next/
 **/client/out/
-**/client/public/
 
 **/server/build/
 **/server/dist/

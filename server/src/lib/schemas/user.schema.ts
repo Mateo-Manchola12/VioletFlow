@@ -1,14 +1,22 @@
 import { Privilege } from '@violetflow/types'
-import { z } from 'zod'
 import { IdSchema } from './id'
+import z from 'zod'
 
-export const UserSchema = z.object({
-  _id: IdSchema.optional(),
+export const BaseUserSchema = z.object({
   first_name: z.string().min(2).max(50),
   last_name: z.string().min(2).max(50),
-  email: z.string().email(),
+  email: z.email(),
   phone: z.string().min(9).max(15),
-  password: z.string().min(8).max(100),
-  company: z.string().min(2).max(100),
-  role: z.nativeEnum(Privilege),
 })
+
+export const CreateUserSchema = BaseUserSchema.extend({
+  password: z.string().min(8).max(100),
+})
+
+export const UserSchema = CreateUserSchema.extend({
+  _id: IdSchema,
+  company: z.string().min(2).max(100),
+  role: z.enum(Privilege),
+})
+
+export const PublicUserSchema = BaseUserSchema

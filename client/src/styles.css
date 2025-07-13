@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/magenta-violet.css';
 @import 'tailwindcss';
+@import 'ngx-toastr/toastr';
+@import 'preline/variants.css';
+
+@source "node_modules/preline/dist/*.js";
+
 @plugin "@midudev/tailwind-animations";
 
 @theme {
@@ -42,11 +47,18 @@
     @apply cursor-pointer;
   }
 
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
   input {
     @apply outline-none;
   }
 }
 
+@custom-variant hover (&:hover);
+
 html,
 body {
   height: 100%;
@@ -63,4 +75,80 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-br from-primary to-primary/70 bg-white text-on-primary px-4 py-2 rounded-lg transition-colors shadow-xl shadow-primary/40;
+    &:hover {
+      @apply from-primary/70 to-primary shadow-primary/60;
+    }
+  }
+  .btn-primary[disabled] {
+    @apply shadow-none cursor-not-allowed;
+    &:hover {
+      @apply from-primary to-primary/70;
+    }
+  }
+
+  .form-input {
+    @apply border border-gray-300 rounded-lg p-2  text-sm  transition-colors bg-white;
+    &:hover {
+      @apply shadow-lg shadow-primary/20 bg-primary/5;
+    }
+    &:focus {
+      @apply shadow-lg shadow-primary/40 outline-none ring ring-primary border-transparent bg-primary/10;
+    }
+  }
+}
+
+/* Sidebar overlay improvements */
+.hs-overlay.hs-overlay-open {
+  display: block !important;
+}
+
+/* Ensure sidebar is properly positioned on mobile */
+@media (max-width: 1023px) {
+  .hs-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100vh;
+    z-index: 60;
+  }
+
+  .hs-overlay-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 59;
+  }
+}
+
+/* Prevent body scroll when sidebar is open on mobile */
+body.hs-overlay-open {
+  overflow: hidden;
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(25%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0) translateY(-45%) translateX(13%);
+  }
+  100% {
+    transform: scale(1) translateY(-45%) translateX(13%);
+  }
 }

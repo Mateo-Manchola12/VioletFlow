@@ -11,5 +11,5 @@ export const moduleRoutes = [
   { path: '/serverTesting', router: serverTestingRoutes },
   { path: '/auth', router: authRoutes },]
 export const socketEventRegistrars = [
-  registerServerTestingEvents,
-  registerAuthEvents,]
+  registerAuthEvents,
+  registerServerTestingEvents,]

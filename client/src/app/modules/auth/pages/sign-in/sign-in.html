@@ -1,0 +1,86 @@
+<div class="flex flex-col items-center justify-center h-full">
+  <h1 class="text-2xl font-bold">Iniciar sesión</h1>
+  <form
+    class="shadow-xl p-6 rounded-lg w-full flex flex-col gap-4 max-w-11/12 md:max-w-md"
+    [formGroup]="signInForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-semibold" for="email"
+        >Correo electrónico</label
+      >
+      <input
+        class="form-input"
+        type="email"
+        id="email"
+        name="email"
+        required
+        placeholder="ejemplo@dominio.com"
+        autocomplete="email"
+        formControlName="email"
+        aria-label="Correo electrónico"
+      />
+      @if (email?.invalid && (email?.dirty || email?.touched)) {
+        <div class="text-red-500 text-sm">
+          <ng-container *ngIf="email?.errors?.['required']">
+            El correo electrónico es obligatorio.
+          </ng-container>
+          <ng-container *ngIf="email?.errors?.['email']">
+            El correo electrónico no es válido.
+          </ng-container>
+        </div>
+      }
+    </div>
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-semibold" for="password">Contraseña</label>
+      <div class="relative">
+        <input
+          class="form-input w-full"
+          [type]="isPasswordVisible ? 'text' : 'password'"
+          id="password"
+          name="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+          formControlName="password"
+          aria-label="Contraseña"
+          minlength="8"
+        />
+        <button
+          type="button"
+          class="flex items-center justify-center absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          (click)="togglePasswordVisibility()"
+          aria-label="Mostrar/ocultar contraseña"
+        >
+          <ng-container *ngIf="isPasswordVisible; else hidePassword">
+            <i class="material-symbols-rounded w-6 h-6">visibility</i>
+          </ng-container>
+          <ng-template #hidePassword>
+            <i class="material-symbols-rounded w-6 h-6">visibility_off</i>
+          </ng-template>
+        </button>
+      </div>
+      @if (password?.invalid && (password?.dirty || password?.touched)) {
+        <div class="text-red-500 text-sm">
+          <ng-container *ngIf="password?.errors?.['required']">
+            La contraseña es obligatoria.
+          </ng-container>
+          <ng-container *ngIf="password?.errors?.['minlength']">
+            La contraseña debe tener al menos 8 caracteres.
+          </ng-container>
+        </div>
+      }
+    </div>
+    <button
+      type="submit"
+      class="btn-primary"
+      [disabled]="signInForm.invalid"
+      [attr.aria-disabled]="signInForm.invalid"
+    >
+      Iniciar sesión
+    </button>
+  </form>
+  <a routerLink="/auth/signup" class="text-sm mt-10 hover:text-primary"
+    >¿No tienes una cuenta? Regístrate</a
+  >
+</div>

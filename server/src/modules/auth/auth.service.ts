@@ -1,15 +1,15 @@
 import { $ } from '../../config/db'
 import { UserSchema } from '../../lib/schemas/user.schema'
-import { CompanySchema } from '../../lib/schemas/company.schema'
-import { UserAccount, CompanyAccount } from '@violetflow/types'
+import { UserAccount, CreateUserAccount, CreateCompanyAccount, Session } from '@violetflow/types'
 import { checkUnique } from '../../lib/utils/checkUnique'
 import { HttpError } from '../../lib/http/HttpError'
-import jwt, { Jwt } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../../config/env'
+import bcrypt from 'bcryptjs'
+import { ObjectId } from 'mongodb'
 
-export async function registerCompany(company: CompanyAccount): Promise<string> {
-  const parsedCompany = CompanySchema.parse(company)
-  const { acknowledged, insertedId } = await $.collection('companies').insertOne(parsedCompany)
+export async function registerCompany(company: CreateCompanyAccount): Promise<string> {
+  const { acknowledged, insertedId } = await $.collection('companies').insertOne(company)
 
   if (!acknowledged) {
     throw new Error('Error al registrar la empresa')
@@ -18,16 +18,17 @@ export async function registerCompany(company: CompanyAccount): Promise<string> 
   return insertedId.toString()
 }
 
-export async function registerUser(user: UserAccount): Promise<string> {
-  const parsedUser = UserSchema.parse(user)
-
-  const existingUser = await checkUnique({ name: 'email', value: parsedUser.email }, 'users')
+export async function registerUser(
+  user: CreateUserAccount & { company: string; role: number },
+): Promise<string> {
+  const existingUser = await checkUnique({ name: 'email', value: user.email }, 'users')
 
   if (!existingUser) {
     throw new HttpError(409, 'El correo electrónico ya está registrado')
   }
 
-  const { acknowledged, insertedId } = await $.collection('users').insertOne(parsedUser)
+  user.password = await bcrypt.hash(user.password, 10)
+  const { acknowledged, insertedId } = await $.collection('users').insertOne(user)
 
   if (!acknowledged) {
     throw new Error('Error al registrar el usuario')
@@ -36,8 +37,33 @@ export async function registerUser(user: UserAccount): Promise<string> {
   return insertedId.toString()
 }
 
-export async function startSession(userId, companyId, role): Promise<string> {
+export async function startSession(
+  userId: string,
+  companyId: string,
+  role: number,
+): Promise<string> {
   const session = { userId, companyId, role }
   const token = jwt.sign(session, JWT_SECRET, { expiresIn: '1h' })
   return token
+}
+
+export async function findUserByEmail(email: string): Promise<UserAccount | null> {
+  const user = await $.collection<UserAccount>('users').findOne({ email })
+  return user ? UserSchema.parse(user) : null
+}
+
+export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword)
+}
+export async function getSession(token: string): Promise<UserAccount | null> {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as Session
+    const user = await $.collection<UserAccount>('users').findOne({ _id: new ObjectId(decoded.userId) })
+    if (!user) {
+      return null
+    }
+    return UserSchema.parse(user)
+  } catch (error) {
+    return null
+  }
 }

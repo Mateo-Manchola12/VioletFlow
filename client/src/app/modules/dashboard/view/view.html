@@ -1,0 +1,52 @@
+<div
+  class="w-screen max-w-screen h-dvh grid lg:grid-cols-[auto_1fr] grid-cols-1 grid-rows-[1fr_auto]"
+>
+  <aside
+    id="hs-sidebar-offcanvas"
+    class="w-2xl [--auto-close:lg] lg:translate-x-0 lg:end-auto lg:bottom-0 lg:row-start-1 lg:row-end-3 lg:col-start-1 lg:relative lg:z-auto hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform lg:transform-none h-full lg:h-auto hidden lg:flex flex-col bg-gradient-to-b from-primary to-white/15 bg-primary to-70% text-on-primary shadow-lg lg:w-[200px] hs-overlay max-lg:[&.hs-overlay]:!w-11/12 max-lg:[&.hs-overlay]:max-w-[300px]"
+    role="dialog"
+    tabindex="-1"
+    aria-label="Sidebar"
+  >
+    <div class="relative flex flex-col h-full max-h-full w-full">
+      <div class="flex justify-between items-center p-4 lg:p-6 lg:py-4">
+        <a
+          class="flex items-center justify-center text-3xl lg:text-3xl text-on-primary"
+          routerLink="home"
+        >
+          <h1 class="text-shadow-lg">
+            Violet<span class="text-shadow-white font-bold">Flow</span>
+          </h1>
+        </a>
+        <div class="lg:hidden">
+          <button
+            type="button"
+            class="flex justify-center items-center size-8 bg-white/10 hover:bg-white/20 text-on-primary rounded-full focus:outline-none focus:ring-2 focus:ring-white/50 transition-colors"
+            data-hs-overlay="#hs-sidebar-offcanvas"
+          >
+            <i class="material-symbols-rounded">close</i>
+            <span class="sr-only">Close</span>
+          </button>
+        </div>
+      </div>
+
+      <hr class="border-secondary/30 mx-4 lg:mx-6" />
+
+      <!-- Navigation -->
+      <nav class="flex-1 lg:p-0">
+        <app-nav></app-nav>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="overflow-y-auto p-4 dashboard-main">
+    <header><app-header></app-header></header>
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full lg:w-[calc(100dvw-200px)] lg:col-start-2">
+    <app-footer></app-footer>
+  </footer>
+</div>

@@ -1,0 +1,124 @@
+<div class="flex shadow-2xl shadow-primary h-14">
+  <!-- Home Button -->
+  <a
+    class="justify-center h-14 w-14 flex items-center p-2 cursor-pointer border-t-primary border-t hover:bg-primary/5 transition-colors group hover:text-primary"
+    title="Inicio"
+    routerLink="/dashboard/home"
+    [ngClass]="{ 'bg-primary/10 active': !isAnyTabActive() }"
+  >
+    <i
+      class="material-symbols-rounded text-gray-600 h-6 w-6 flex-shrink-0 group-[.active]:text-primary"
+    >
+      home
+    </i>
+  </a>
+
+  <!-- Tabs Container -->
+  <div class="relative flex-1 overflow-hidden">
+    <!-- Left Scroll Button -->
+    <button
+      type="button"
+      (click)="scrollTabs('left')"
+      class="absolute left-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-r from-white/90 to-transparent hover:from-white/70 transition-colors"
+      [hidden]="!isLeftButtonVisible"
+      aria-label="Desplazar pestañas hacia la izquierda"
+    >
+      <i class="material-symbols-rounded">chevron_left</i>
+    </button>
+
+    <!-- Scrollable Tabs -->
+    <div
+      #scrollContainer
+      (scroll)="onScroll()"
+      class="drag-list flex overflow-x-auto scroll-smooth relative"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="drop($event)"
+      role="tablist"
+    >
+      @for (tab of pinnedRecords; track `${tab.module.route}/${tab.id}`) {
+        <a
+          class="w-36 flex items-center p-2 cursor-pointer border-t-primary border-t relative hover:not-[.active]:bg-primary/5 group select-none transition-colors drag-item"
+          [title]="tab.title"
+          [routerLink]="[tab.module.route, 'record', tab.id]"
+          routerLinkActive="bg-primary/10 text-primary group active"
+          cdkDrag
+          cdkDragBoundary=".drag-list"
+          (mousedown)="navigateOnMouseDown(tab)"
+          role="tab"
+          [attr.aria-selected]="isTabActive(tab)"
+        >
+          <!-- Tab Icon -->
+          <i
+            [class]="tab.module.icon.package"
+            class="text-gray-600 mr-2 h-6 w-6 flex-shrink-0 group-[.active]:text-primary"
+          >
+            {{ tab.module.icon.name }}
+          </i>
+
+          <!-- Tab Content -->
+          <div class="flex flex-col overflow-hidden">
+            <span class="text-sm font-medium truncate">{{ tab.title }}</span>
+            <span class="text-xs truncate">{{ tab.module.label }}</span>
+          </div>
+
+          <!-- Close Button -->
+          <button
+            type="button"
+            class="absolute top-1 right-1 text-gray-500 group-hover:flex hidden h-4 w-4 rounded-full bg-gray-100 hover:bg-gray-200 items-center justify-center"
+            (click)="onCloseTab($event, tab.id, tab.module.route)"
+            [title]="'Cerrar ' + tab.title"
+            aria-label="Cerrar pestaña"
+          >
+            <i
+              class="!text-xs leading-none group-[.active]:hover:text-primary transition-colors bg-transparent"
+            >
+              close
+            </i>
+          </button>
+        </a>
+      }
+    </div>
+
+    <!-- Right Scroll Button -->
+    <button
+      type="button"
+      (click)="scrollTabs('right')"
+      [hidden]="!isRightButtonVisible"
+      class="absolute right-0 top-0 bottom-0 z-10 w-8 bg-gradient-to-l from-white/90 to-transparent hover:from-white/70 transition-colors"
+      aria-label="Desplazar pestañas hacia la derecha"
+    >
+      <i class="material-symbols-rounded">chevron_right</i>
+    </button>
+  </div>
+
+  <!-- Action Buttons -->
+  <div
+    class="flex items-center justify-center w-36 h-14 p-2 ml-auto shadow-2xl shadow-primary/40"
+  >
+    <button
+      type="button"
+      class="flex items-center justify-center hover:text-primary p-2"
+      title="Notas"
+      aria-label="Notas"
+    >
+      <i class="w-6 h-6 material-symbols-rounded">note_stack</i>
+    </button>
+    <button
+      type="button"
+      class="flex items-center justify-center hover:text-primary p-2"
+      title="Correo"
+      aria-label="Correo"
+    >
+      <i class="w-6 h-6 material-symbols-rounded">mail</i>
+    </button>
+    <button
+      type="button"
+      class="flex items-center justify-center hover:text-primary p-2"
+      title="Notificaciones"
+      aria-label="Notificaciones"
+    >
+      <i class="w-6 h-6 material-symbols-rounded">notifications</i>
+    </button>
+  </div>
+</div>

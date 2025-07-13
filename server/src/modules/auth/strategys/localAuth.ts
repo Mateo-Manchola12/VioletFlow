@@ -1,21 +1,28 @@
-import { UserAccount, CompanyAccount } from "@violetflow/types";
-import { registerCompany, registerUser } from "../auth.service";
+import { CreateUserAccount, CreateCompanyAccount, Privilege } from '@violetflow/types'
+import { registerCompany, registerUser, findUserByEmail, verifyPassword } from '../auth.service'
+import { HttpError } from '../../../lib/http/HttpError'
 
 export async function localSignUp(
-  user: UserAccount,
-  company: CompanyAccount,
+  user: CreateUserAccount,
+  company: CreateCompanyAccount,
 ): Promise<{ userId: string; companyId: string }> {
   const companyId = await registerCompany(company)
-  user.company = companyId
-  const userId = await registerUser(user)
+  const newUser = { ...user, company: companyId, role: Privilege.ADMIN }
+  const userId = await registerUser(newUser)
 
   return { userId, companyId }
 }
 
-export function localSignIn(data: any): Promise<any> {
-  return new Promise((resolve, reject) => {
-    // Simulate a successful signin
-    const user = { id: 1, ...data }
-    resolve(user)
-  })
+export async function localSignIn(
+  email: string,
+  password: string,
+): Promise<{ userId: string; companyId: string; role: number }> {
+  const user = await findUserByEmail(email)
+  if (!user) {
+    throw new HttpError(401, 'Invalid email')
+  }
+  if (!await verifyPassword(password, user.password)) {
+    throw new HttpError(401, 'Invalid password')
+  }
+  return { userId: user._id?.toString(), companyId: user.company, role: user.role }
 }

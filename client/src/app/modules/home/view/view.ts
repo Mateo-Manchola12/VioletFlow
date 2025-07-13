@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-  ApiResponse,
-  ApiResponseStatus,
-  UserAccount,
-} from '@violetflow/types';
+import { ApiResponse, ApiResponseStatus, UserAccount } from '@violetflow/types';
 import { Socket } from 'ngx-socket-io';
+import { environment } from '../../../../environments/enviroment';
 
 @Component({
   selector: 'app-main-view',
@@ -14,7 +11,7 @@ import { Socket } from 'ngx-socket-io';
 export class View implements OnInit {
   websocketMessage!: string;
   httpMessage!: string;
-  activeConections!: number;
+  activeConnections!: number;
   user!: UserAccount;
 
   constructor(
@@ -29,11 +26,11 @@ export class View implements OnInit {
     });
 
     this.socket.on('active-connections', (data) => {
-      this.activeConections = data.count;
+      this.activeConnections = data.count;
     });
 
     this.http
-      .get<ApiResponse>('http://localhost:3000/api/serverTesting')
+      .get<ApiResponse>(environment.apiUrl + 'serverTesting')
       .subscribe({
         next: (response) => {
           const { message, status } = response;
@@ -46,7 +43,7 @@ export class View implements OnInit {
     this.http
       .get<
         ApiResponse<UserAccount>
-      >('http://localhost:3000/api/serverTesting/user')
+      >(environment.apiUrl + 'serverTesting/user')
       .subscribe({
         next: (response) => {
           const { data, status, error } = response;

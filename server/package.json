@@ -16,12 +16,14 @@
     "typescript-eslint": "^8.35.1"
   },
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.17.0",
     "morgan": "^1.10.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "zod": "^4.0.0"
   }
 }

@@ -7,7 +7,7 @@ if (args.length === 0) {
 }
 
 const modulePath = args[0];
-const command = `ng g m ${modulePath} --routing --route`;
+const command = `ng g m modules/${modulePath} --routing --route`;
 
 try {
   console.log(`Ejecutando: ${command}`);

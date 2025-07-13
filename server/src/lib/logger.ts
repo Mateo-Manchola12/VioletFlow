@@ -1,3 +1,5 @@
+import { ENV } from "../config/env"
+
 export enum logOrigin {
   CLIENT = 'CLIENT',
   SERVER = 'SERVER',
@@ -9,7 +11,7 @@ function getTimestamp() {
 }
 
 function isDevelopment() {
-  return process.env.NODE_ENV !== 'production'
+  return ENV !== 'PRODUCTION'
 }
 
 function log(message: string, level: string, origin: logOrigin) {

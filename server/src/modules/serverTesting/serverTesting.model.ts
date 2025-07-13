@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb'
-import { z } from 'zod'
+import { z } from '../../config/zod'
 
 export const ServerTestingSchema = z.object({
   _id: z.any().refine((val) => val instanceof ObjectId, {

@@ -1,13 +1,12 @@
-import { ApiResponse, ApiResponseStatus } from '@violetflow/types/src/transport/api/response'
+import { ApiResponse, ApiResponseStatus } from '@violetflow/types'
 import express from 'express'
-import { $ } from '../services/db'
-import { logError, logOrigin } from '../services/console'
+import { $ } from '../config/db'
 const router = express.Router()
 
 // Rutas HTTP
 router.get('/', (req, res) => {
   const response: ApiResponse = {
-    status: ApiResponseStatus.SuccessNoData,
+    status: ApiResponseStatus.NoContent,
     message: 'Bienvenido desde el servidor',
   }
   res.status(200).send(response)
@@ -23,9 +22,8 @@ router.get('/user', async (req, res) => {
       return void res.status(404).send({ message: 'No users found' })
 
     const firstUser = users[0] as { name: string; lastname: string; age: number }
-    res.status(200).send({ data: firstUser, status: ApiResponseStatus.SuccessWithData })
+    res.status(200).send({ data: firstUser, status: ApiResponseStatus.Ok })
   } catch (error) {
-    logError(`Error fetching users: ${error}`, logOrigin.DATABASE)
     res.status(500).send({ message: 'Internal Server Error' })
   }
 })
