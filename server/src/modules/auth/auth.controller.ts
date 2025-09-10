@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import * as authService from './auth.service'
 import { ApiResponse, ApiResponseStatus, Privilege, PublicUserAccount } from '@violetflow/types'
-import { localSignIn, localSignUp } from './strategys/localAuth'
+import { localSignIn, localSignUp } from './strategies/localAuth'
 import { CreateUserSchema, PublicUserSchema } from '../../lib/schemas/user.schema'
 import { CreateCompanySchema } from '../../lib/schemas/company.schema'
 import { HttpError } from '../../lib/http/HttpError'
@@ -54,4 +54,19 @@ export async function getSession(req: Request, res: Response): Promise<void> {
     data: PublicUserSchema.parse(session),
   }
   res.json(response)
+}
+
+export async function verifyEmail(req: Request, res: Response): Promise<void> {
+  const session = await authService.getSession(req.cookies.session)
+
+  if (!session) {
+    throw new HttpError(401, 'No se ha iniciado sesión')
+  }
+  if (session.is_email_verified) {
+    throw new HttpError(400, 'El correo electrónico ya está verificado')
+  }
+
+  await authService.verifyEmail(session._id)
+
+  res.json({ status: ApiResponseStatus.Ok, message: 'Correo electrónico verificado correctamente' })
 }

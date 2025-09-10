@@ -1,0 +1,85 @@
+<div class="flex flex-col items-center justify-center min-h-[60vh] p-6">
+  <div class="max-w-md w-full text-center space-y-6">
+    <!-- Icono de email -->
+    <div class="flex justify-center mb-6">
+      <div
+        class="bg-gradient-to-br from-primary to-primary/70 text-on-primary rounded-full shadow-lg shadow-primary/40 flex items-center justify-center w-16 h-16"
+      >
+        <i class="material-symbols-rounded !text-4xl w-9 h-9 m-auto"
+          >mark_email_unread</i
+        >
+      </div>
+    </div>
+
+    <!-- Título -->
+    <h1 class="text-2xl font-bold text-on-background mb-4">
+      Verifica tu correo electrónico
+    </h1>
+    <p>Para poder empezar a usar tu cuenta, verifica tu correo electrónico.</p>
+    <!-- Descripción -->
+    <div class="bg-surface rounded-lg p-6 border border-gray-200 shadow-sm">
+      <p class="text-on-background/80 text-sm leading-relaxed mb-4">
+        Hemos enviado un enlace de verificación a:
+      </p>
+      <p
+        class="font-semibold text-primary bg-primary/10 px-3 py-2 rounded-lg border border-primary/20 mb-4"
+      >
+        {{ email }}
+      </p>
+      <p class="text-on-background/80 text-sm leading-relaxed">
+        Por favor revisa tu bandeja de entrada y haz clic en el enlace para
+        verificar tu cuenta.
+      </p>
+    </div>
+
+    <!-- Acciones adicionales -->
+    <div class="space-y-3">
+      <button
+        class="btn-primary w-full"
+        type="button"
+        (click)="checkVerificationStatus()"
+      >
+        <i class="material-symbols-rounded mr-2 align-middle">refresh</i>
+        Verificar estado
+      </button>
+
+      <div class="text-center">
+        <p class="text-sm text-on-background/60 mb-2">
+          ¿No has recibido el email?
+        </p>
+        <button
+          class="text-primary hover:text-primary/80 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          type="button"
+          (click)="resendVerificationEmail()"
+          [disabled]="isResending"
+        >
+          <span *ngIf="!isResending" class="underline">Reenviar enlace de verificación</span>
+          <span *ngIf="isResending" class="flex items-center justify-center">
+            <i
+              class="material-symbols-rounded animate-spin-clockwise animate-iteration-count-infinite mr-1 text-sm"
+              >refresh</i
+            >
+            Reenviando...
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-6">
+      <div class="flex items-center justify-center">
+        <i class="material-symbols-rounded text-yellow-600 mr-2 mt-0.5 text-lg"
+          >info</i
+        >
+        <div class="text-sm text-yellow-800">
+          <p class="font-medium mb-1">Consejos:</p>
+          <ul class="text-xs space-y-1 text-yellow-700">
+            <li>• Revisa tu carpeta de spam o correo no deseado</li>
+            <li>• El enlace expira en 24 horas</li>
+            <li>• Asegúrate de que tu dirección de email sea correcta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

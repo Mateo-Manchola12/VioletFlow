@@ -58,12 +58,25 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 export async function getSession(token: string): Promise<UserAccount | null> {
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as Session
-    const user = await $.collection<UserAccount>('users').findOne({ _id: new ObjectId(decoded.userId) })
+    const user = await $.collection<UserAccount>('users').findOne({
+      _id: new ObjectId(decoded.userId),
+    })
     if (!user) {
       return null
     }
     return UserSchema.parse(user)
   } catch (error) {
     return null
+  }
+}
+
+export async function verifyEmail(_id: string | ObjectId) {
+  const { acknowledged } = await $.collection('users').updateOne(
+    { _id: new ObjectId(_id) },
+    { $set: { is_email_verified: true } },
+  )
+
+  if (!acknowledged) {
+    throw new Error('Error al verificar el correo electrónico')
   }
 }

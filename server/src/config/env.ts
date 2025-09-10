@@ -11,7 +11,7 @@ const envSchema = z.object({
   DB_PASS: z.string().optional(),
   JWT_SECRET: z.string().default('violetflow'),
   ENV: z.enum(['DEVELOPMENT', 'PRODUCTION']).default('DEVELOPMENT'),
-  CORS_ORIGIN: z.string().default('http://192.168.1.100:4200'),
+  CORS_ORIGIN: z.string().default('http://100.95.205.45:4200'),
   PORT: z.string().default('3000'),
 })
 

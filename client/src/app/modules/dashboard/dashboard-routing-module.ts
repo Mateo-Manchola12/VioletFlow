@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { View } from './view/view';
 import { ErrorPage } from './error-page/error-page';
 import { authGuard } from '../auth/services/auth-guard';
+import { emailGuard } from '../auth/services/email-guard';
 
 const routes: Routes = [
   {
@@ -12,27 +12,35 @@ const routes: Routes = [
     data: { requiresAuth: true },
     children: [
       {
-        path: 'home',
-        loadChildren: () =>
-          import('../home/home-module').then((m) => m.HomeModule),
+        path: 'verify-email',
+        canActivate: [emailGuard],
+        loadComponent: () =>
+          import('../auth/pages/verify-email/verify-email').then(
+            (m) => m.VerifyEmailComponent,
+          ),
+        data: { requiresVerification: false },
       },
       {
         path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
-      {
-        path: '**',
-        component: ErrorPage,
-      },
-      {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
-      },
-      {
-        path: '**',
-        component: ErrorPage,
+        canActivate: [emailGuard],
+        children: [
+          {
+            path: 'home',
+            loadChildren: () =>
+              import('../home/home-module').then((m) => m.HomeModule),
+          },
+          {
+            path: '',
+            redirectTo: 'home',
+            pathMatch: 'full',
+          },
+          {
+            path: '**',
+            pathMatch: 'full',
+            component: ErrorPage,
+            data: { requiresAuth: true },
+          },
+        ],
       },
     ],
   },

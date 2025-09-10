@@ -6,6 +6,8 @@ export interface UserAccountBase {
   last_name: string
   email: string
   phone: string
+  is_email_verified: boolean
+  is_active: boolean
 }
 
 export interface CreateUserAccount extends UserAccountBase {
@@ -19,7 +21,7 @@ export interface UserAccount extends UserAccountBase {
   password: string
 }
 
-export type PublicUserAccount = Omit<UserAccount, '_id' | 'password' | 'company' | 'role'>
+export type PublicUserAccount = Omit<UserAccount, '_id' | 'password' | 'company'>
 export interface CompanyAccountBase {
   name: string
   site: string

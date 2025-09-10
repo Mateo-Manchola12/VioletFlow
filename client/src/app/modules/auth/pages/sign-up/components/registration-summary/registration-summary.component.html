@@ -1,0 +1,54 @@
+<section aria-labelledby="step-3-title" class="animate-fade-in">
+  <div class="flex flex-col gap-4 items-center">
+    <h2 id="step-3-title" class="text-2xl font-bold">Finalizar registro</h2>
+    <div class="w-full space-y-4">
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-lg mb-2">Información personal</h3>
+        <div class="space-y-1 text-sm">
+          <p>
+            <strong>Nombre:</strong>
+            {{ userForm.get('first_name')?.value }}
+            {{ userForm.get('last_name')?.value }}
+          </p>
+          <p><strong>Email:</strong> {{ userForm.get('email')?.value }}</p>
+          <p>
+            <strong>Teléfono:</strong> +{{
+              userForm.get('phoneCountryCode')?.value
+            }}
+            {{ userForm.get('phone')?.value }}
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg">
+        <h3 class="font-semibold text-lg mb-2">Información de empresa</h3>
+        <div class="space-y-1 text-sm">
+          <p>
+            <strong>Empresa:</strong> {{ companyForm.get('name')?.value }}
+          </p>
+          <p>
+            <strong>Sitio web:</strong> {{ companyForm.get('site')?.value }}
+          </p>
+          <p>
+            <strong>Tamaño:</strong> {{ companyForm.get('size')?.value }}
+          </p>
+          <p>
+            <strong>Ubicación:</strong>
+            {{ companyForm.get('city')?.value }},
+            {{ companyForm.get('country')?.value }}
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-primary/10 p-4 rounded-lg border border-primary/20">
+        <div class="flex items-center gap-2 text-primary">
+          <i class="material-symbols-rounded">info</i>
+          <p class="text-sm">
+            Al finalizar el registro, recibirás un correo de confirmación
+            para activar tu cuenta.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

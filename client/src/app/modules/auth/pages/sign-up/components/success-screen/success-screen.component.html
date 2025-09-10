@@ -1,0 +1,25 @@
+<section aria-labelledby="final-title" class="animate-fade-in">
+  <div class="flex flex-col gap-6 items-center text-center">
+    <div
+      class="size-16 bg-green-100 rounded-full flex items-center justify-center"
+    >
+      <i class="material-symbols-rounded text-green-600 text-3xl"
+        >check_circle</i
+      >
+    </div>
+    <h2 id="final-title" class="text-2xl font-bold text-green-600">
+      ¡Registro completado!
+    </h2>
+    <p class="text-gray-600 max-w-md">
+      Tu cuenta ha sido creada exitosamente. Hemos enviado un correo de
+      confirmación a
+      <strong>{{ userForm.get('email')?.value }}</strong>
+    </p>
+    <div class="flex flex-col gap-2 w-full">
+      <a class="btn-primary" routerLink="/dashboard">Ir al dashboard</a>
+      <button class="text-gray-500 hover:text-gray-700 text-sm">
+        Reenviar correo de confirmación
+      </button>
+    </div>
+  </div>
+</section>

@@ -40,7 +40,7 @@
         <a
           class="w-36 flex items-center p-2 cursor-pointer border-t-primary border-t relative hover:not-[.active]:bg-primary/5 group select-none transition-colors drag-item"
           [title]="tab.title"
-          [routerLink]="[tab.module.route, 'record', tab.id]"
+          [routerLink]="['/','dashboard',tab.module.route, 'record', tab.id]"
           routerLinkActive="bg-primary/10 text-primary group active"
           cdkDrag
           cdkDragBoundary=".drag-list"
@@ -71,7 +71,7 @@
             aria-label="Cerrar pestaña"
           >
             <i
-              class="!text-xs leading-none group-[.active]:hover:text-primary transition-colors bg-transparent"
+              class="!text-xs leading-none group-[.active]:hover:text-primary transition-colors bg-transparent material-symbols-rounded"
             >
               close
             </i>

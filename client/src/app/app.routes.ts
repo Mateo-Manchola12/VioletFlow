@@ -13,9 +13,4 @@ export const routes: Routes = [
         (m) => m.DashboardModule,
       ),
   },
-  {
-    path: '**',
-    redirectTo: 'auth',
-    pathMatch: 'full',
-  },
 ];

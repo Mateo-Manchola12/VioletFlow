@@ -1,0 +1,92 @@
+<section aria-labelledby="step-2-title" class="animate-fade-in">
+  <div class="flex flex-col gap-4 items-center">
+    <h2 id="step-2-title" class="text-2xl font-bold text-center">
+      Información de empresa
+    </h2>
+    <form
+      [formGroup]="companyForm"
+      class="sm:p-6 p-3 w-full flex flex-col gap-2"
+    >
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="company_name"
+          >Nombre de la empresa</label
+        >
+        <input
+          class="form-input"
+          id="company_name"
+          formControlName="name"
+          autocomplete="organization"
+          placeholder="Ingresa el nombre de tu empresa"
+        />
+        <app-form-error-tooltip
+          [control]="companyFormFields['name']"
+          fieldName="name"
+        ></app-form-error-tooltip>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm" for="company_site">Sitio web</label>
+        <div class="relative">
+          <input
+            class="form-input w-full pl-16"
+            id="company_site"
+            formControlName="site"
+            autocomplete="url"
+            placeholder="tuempresa.com"
+          />
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2"
+            >https://</span
+          >
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="company_size"
+          >Tamaño de la empresa</label
+        >
+        <select class="form-input" id="company_size" formControlName="size">
+          <option value="">Selecciona el tamaño</option>
+          <option value="1-10">1-10 empleados</option>
+          <option value="11-50">11-50 empleados</option>
+          <option value="51-200">51-200 empleados</option>
+          <option value="201-500">201-500 empleados</option>
+          <option value="500+">500+ empleados</option>
+        </select>
+        <app-form-error-tooltip
+          [control]="companyFormFields['size']"
+          fieldName="size"
+        ></app-form-error-tooltip>
+      </div>
+
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="company_country">País</label>
+        <input
+          class="form-input"
+          id="company_country"
+          formControlName="country"
+          autocomplete="country-name"
+          placeholder="Ingresa el país"
+        />
+        <app-form-error-tooltip
+          [control]="companyFormFields['country']"
+          fieldName="country"
+        ></app-form-error-tooltip>
+      </div>
+
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="company_city">Ciudad</label>
+        <input
+          class="form-input"
+          id="company_city"
+          formControlName="city"
+          autocomplete="address-level2"
+          placeholder="Ingresa la ciudad"
+        />
+        <app-form-error-tooltip
+          [control]="companyFormFields['city']"
+          fieldName="city"
+        ></app-form-error-tooltip>
+      </div>
+    </form>
+  </div>
+</section>

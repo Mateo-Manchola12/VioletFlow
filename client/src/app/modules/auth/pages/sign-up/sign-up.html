@@ -1,1 +1,185 @@
-<p>sign-up works!</p>
+<article
+  class="max-w-full min-h-dvh"
+  role="main"
+  aria-label="Formulario de registro"
+>
+  <nav aria-label="Pasos del registro" class="mx-6 pt-6">
+    <ol
+      class="relative flex justify-center items-center gap-x-2 sm:px-[8.33%] px-2"
+    >
+      <li class="flex items-center gap-x-2 group">
+        <span
+          class="inline-flex items-center text-xs focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+          [attr.aria-current]="isStepActive(1) ? 'step' : null"
+          aria-label="Paso 1: Información de usuario"
+        >
+          <span [class]="getStepCircleClasses(1)">
+            <span *ngIf="!isStepCompleted(1)">1</span>
+            <i
+              *ngIf="isStepCompleted(1) && isFinalStep() == registerSuccess"
+              class="material-symbols-rounded !flex justify-center items-center size-4"
+              aria-hidden="true"
+            >
+              check
+            </i>
+            <i
+              *ngIf="isStepCompleted(1) && isFinalStep() != registerSuccess"
+              class="material-symbols-rounded !flex justify-center items-center size-4"
+              aria-hidden="true"
+            >
+              close
+            </i>
+          </span>
+          <span [class]="getStepTextClasses(1)"> Usuario </span>
+        </span>
+      </li>
+
+      <div [class]="getStepConnectorClasses(1)" aria-hidden="true"></div>
+
+      <li class="flex items-center gap-x-2 group">
+        <span
+          class="inline-flex items-center text-xs focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+          [attr.aria-current]="isStepActive(2) ? 'step' : null"
+          aria-label="Paso 2: Información de empresa"
+        >
+          <span [class]="getStepCircleClasses(2)">
+            <span *ngIf="!isStepCompleted(2)">2</span>
+            <i
+              *ngIf="isStepCompleted(2) && isFinalStep() == registerSuccess"
+              class="material-symbols-rounded !flex justify-center items-center size-4"
+              aria-hidden="true"
+            >
+              check
+            </i>
+            <i
+              *ngIf="isStepCompleted(2) && isFinalStep() != registerSuccess"
+              class="material-symbols-rounded !flex justify-center items-center size-4"
+              aria-hidden="true"
+            >
+              close
+            </i>
+          </span>
+          <span [class]="getStepTextClasses(2)"> Empresa </span>
+        </span>
+      </li>
+
+      <div [class]="getStepConnectorClasses(2)" aria-hidden="true"></div>
+
+      <li class="flex items-center gap-x-2 group">
+        <span
+          class="inline-flex items-center text-xs focus:outline-none disabled:opacity-50 disabled:pointer-events-none"
+          [attr.aria-current]="isStepActive(3) ? 'step' : null"
+          aria-label="Paso 3: Finalizar registro"
+        >
+          <span [class]="getStepCircleClasses(3)">
+            <span *ngIf="!isStepCompleted(3)">3</span>
+            <i
+              *ngIf="isStepCompleted(3) && isFinalStep() == registerSuccess"
+              class="material-symbols-rounded !flex justify-center items-center size-4"
+              aria-hidden="true"
+            >
+              check
+            </i>
+            <i
+              *ngIf="isStepCompleted(3) && isFinalStep() != registerSuccess"
+              class="material-symbols-rounded !flex justify-center items-center size-4"
+              aria-hidden="true"
+            >
+              close
+            </i>
+          </span>
+          <span [class]="getStepTextClasses(3)"> Registro </span>
+        </span>
+      </li>
+    </ol>
+  </nav>
+
+  <main
+    class="mt-5 sm:mt-8 sm:max-w-11/12 md:max-w-md mx-auto shadow-xl p-6 rounded-lg w-full"
+  >
+    <app-user-info-step
+      *ngIf="isStepActive(1)"
+      [userForm]="userForm"
+      [isPasswordVisible]="isPasswordVisible"
+      [animationState]="animationState"
+      (passwordVisibilityToggle)="togglePasswordVisibility()"
+      (passwordFocus)="handleFocus()"
+      (passwordBlur)="handleBlur()"
+    ></app-user-info-step>
+
+    <app-company-info-step
+      *ngIf="isStepActive(2)"
+      [companyForm]="companyForm"
+    ></app-company-info-step>
+
+    <app-registration-summary
+      *ngIf="isStepActive(3)"
+      [userForm]="userForm"
+      [companyForm]="companyForm"
+    ></app-registration-summary>
+
+    <app-success-screen
+      *ngIf="isFinalStep() && registerSuccess && !loading"
+      [userForm]="userForm"
+    ></app-success-screen>
+
+    <app-error-screen
+      *ngIf="isFinalStep() && !registerSuccess && !loading"
+      [errorMessage]="errorMessage"
+    ></app-error-screen>
+    <section *ngIf="loading" class="flex justify-center items-center h-32">
+      <div
+        class="w-6 h-6 border-4 border-t-4 border-primary rounded-full border-e-white animate-spin-clockwise animate-iteration-count-infinite"
+      ></div>
+    </section>
+    <div
+      class="mt-5 flex sm:flex-row flex-col justify-between items-center gap-y-2 sm:gap-x-2"
+      role="group"
+      aria-label="Navegación del stepper"
+      *ngIf="(!isFinalStep() || !registerSuccess) && !loading"
+    >
+      <button
+        type="button"
+        class="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 disabled:pointer-events-none transition-all duration-200"
+        aria-label="Volver al paso anterior"
+        (click)="goToPreviousStep()"
+        [disabled]="step === 1"
+      >
+        <i class="material-symbols-rounded">chevron_left</i>
+        Atrás
+      </button>
+
+      <button
+        type="button"
+        class="btn-primary flex items-center gap-1 transition-all duration-200"
+        [class.opacity-50]="isNextButtonDisabled()"
+        [class.cursor-not-allowed]="isNextButtonDisabled()"
+        [attr.aria-label]="
+          'Continuar al siguiente paso: ' + getNextButtonText()
+        "
+        (click)="goToNextStep()"
+        [disabled]="isNextButtonDisabled()"
+        *ngIf="step < 3"
+      >
+        {{ getNextButtonText() }}
+        <i class="material-symbols-rounded">chevron_right</i>
+      </button>
+
+      <button
+        type="button"
+        class="btn-primary transition-all duration-200"
+        aria-label="Finalizar proceso de registro"
+        (click)="finishRegistration()"
+        *ngIf="isStepActive(3)"
+      >
+        Finalizar registro
+      </button>
+    </div>
+  </main>
+  <a
+    routerLink="/auth/signin"
+    class="text-sm w-full md:mt-1 mt-4 hover:text-primary text-center inline-block"
+  >
+    ¿Ya tienes una cuenta? Inicia sesión
+  </a>
+</article>

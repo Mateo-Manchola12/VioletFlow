@@ -5,7 +5,7 @@
     [formGroup]="signInForm"
     (ngSubmit)="onSubmit()"
   >
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 relative">
       <label class="text-sm font-semibold" for="email"
         >Correo electrónico</label
       >
@@ -20,18 +20,12 @@
         formControlName="email"
         aria-label="Correo electrónico"
       />
-      @if (email?.invalid && (email?.dirty || email?.touched)) {
-        <div class="text-red-500 text-sm">
-          <ng-container *ngIf="email?.errors?.['required']">
-            El correo electrónico es obligatorio.
-          </ng-container>
-          <ng-container *ngIf="email?.errors?.['email']">
-            El correo electrónico no es válido.
-          </ng-container>
-        </div>
-      }
+      <app-form-error-tooltip
+        [control]="email"
+        fieldName="email"
+      ></app-form-error-tooltip>
     </div>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 relative">
       <label class="text-sm font-semibold" for="password">Contraseña</label>
       <div class="relative">
         <input
@@ -60,16 +54,11 @@
           </ng-template>
         </button>
       </div>
-      @if (password?.invalid && (password?.dirty || password?.touched)) {
-        <div class="text-red-500 text-sm">
-          <ng-container *ngIf="password?.errors?.['required']">
-            La contraseña es obligatoria.
-          </ng-container>
-          <ng-container *ngIf="password?.errors?.['minlength']">
-            La contraseña debe tener al menos 8 caracteres.
-          </ng-container>
-        </div>
-      }
+      <app-form-error-tooltip
+        [control]="password"
+        fieldName="password"
+        [minLengthMessage]="'La contraseña debe tener al menos 8 caracteres.'"
+      ></app-form-error-tooltip>
     </div>
     <button
       type="submit"
@@ -80,7 +69,7 @@
       Iniciar sesión
     </button>
   </form>
-  <a routerLink="/auth/signup" class="text-sm mt-10 hover:text-primary"
-    >¿No tienes una cuenta? Regístrate</a
-  >
+  <a routerLink="/auth/signup" class="text-sm mt-10 hover:text-primary">
+    ¿No tienes una cuenta? Regístrate
+  </a>
 </div>

@@ -1,12 +1,15 @@
-<div class="grid grid-cols-1 md:grid-cols-2 w-screen h-dvh">
+<div class="grid grid-cols-1 md:grid-cols-2 w-screen min-h-dvh md:h-screen">
   <aside
-    class="bg-primary text-white flex items-center justify-center text-6xl"
+    class="bg-primary text-white flex items-center justify-center text-6xl py-6"
   >
     <h1 class="text-shadow-lg">
       Violet<span class="font-extrabold">Flow</span>
     </h1>
   </aside>
-  <main class="flex flex-col items-stretch justify-center p-4">
+  <main
+    class="flex flex-col pl-4 md:min-h-dvh overflow-y-auto justify-center"
+    style="scrollbar-gutter: stable"
+  >
     <router-outlet></router-outlet>
   </main>
 </div>

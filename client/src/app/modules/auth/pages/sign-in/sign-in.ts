@@ -10,10 +10,16 @@ import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { Toast } from '../../../common/services/toast';
 import { Session } from '../../services/session';
+import { FormErrorTooltipComponent } from '../../../common/components/form-error-tooltip/form-error-tooltip.component';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    CommonModule,
+    FormErrorTooltipComponent,
+  ],
   templateUrl: './sign-in.html',
 })
 export class SignIn {

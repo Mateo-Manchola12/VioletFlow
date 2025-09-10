@@ -1,0 +1,248 @@
+<section aria-labelledby="step-1-title" class="animate-fade-in">
+  <div class="flex flex-col gap-4 items-center">
+    <h2 id="step-1-title" class="text-2xl font-bold text-center">
+      Información de usuario
+    </h2>
+    <form
+      [formGroup]="userForm"
+      class="sm:p-6 p-3 w-full flex flex-col gap-2"
+    >
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="first_name">Nombre</label>
+        <input
+          class="form-input"
+          id="first_name"
+          formControlName="first_name"
+          autocomplete="given-name"
+        />
+        <app-form-error-tooltip
+          [control]="userFormFields['first_name']"
+          fieldName="first_name"
+        ></app-form-error-tooltip>
+      </div>
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="last_name">Apellido</label>
+        <input
+          class="form-input"
+          id="last_name"
+          formControlName="last_name"
+          autocomplete="family-name"
+        />
+        <app-form-error-tooltip
+          [control]="userFormFields['last_name']"
+          fieldName="last_name"
+        ></app-form-error-tooltip>
+      </div>
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="email">Correo electrónico</label>
+        <input
+          class="form-input"
+          id="email"
+          formControlName="email"
+          autocomplete="email"
+        />
+        <app-form-error-tooltip
+          [control]="userFormFields['email']"
+          fieldName="email"
+        ></app-form-error-tooltip>
+      </div>
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="phone-national">Teléfono</label>
+        <div
+          class="form-input has-focus:shadow-lg has-focus:shadow-primary/40 has-focus:ring has-focus:ring-primary has-focus:border-transparent has-focus:bg-primary/10 flex p-0"
+        >
+          <input
+            type="text"
+            value="+"
+            disabled
+            class="p-2 w-5 pr-1 text-gray-500 bg-transparent"
+            tabindex="-1"
+            aria-hidden="true"
+          />
+          <input
+            type="tel"
+            id="phone-country-code"
+            formControlName="phoneCountryCode"
+            name="phone-country-code"
+            minlength="2"
+            maxlength="5"
+            autocomplete="tel-country-code"
+            class="border-r border-gray-300 p-2 w-12"
+            aria-label="Código de país"
+          />
+          <input
+            id="phone-national"
+            name="phone-national"
+            formControlName="phone"
+            autocomplete="tel-national"
+            type="tel"
+            class="p-2 w-full"
+            aria-label="Número de teléfono"
+          />
+        </div>
+        <div>
+          <!-- Error para el código de país -->
+          <app-form-error-tooltip
+            *ngIf="
+              userFormFields['phoneCountryCode'].invalid &&
+              userFormFields['phoneCountryCode'].touched
+            "
+            [control]="userFormFields['phoneCountryCode']"
+            fieldName="phoneCountryCode"
+            [multipleErrors]="true"
+            [patternMessage]="'El código de país no es válido.'"
+          ></app-form-error-tooltip>
+
+          <!-- Error para el número de teléfono -->
+          <app-form-error-tooltip
+            *ngIf="
+              userFormFields['phone'].invalid &&
+              userFormFields['phone'].touched &&
+              !(
+                userFormFields['phoneCountryCode'].invalid &&
+                userFormFields['phoneCountryCode'].touched
+              )
+            "
+            [control]="userFormFields['phone']"
+            fieldName="phone"
+            [multipleErrors]="true"
+            [patternMessage]="'El número de teléfono no es válido.'"
+          ></app-form-error-tooltip>
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 relative">
+        <label class="text-sm" for="password">Contraseña</label>
+        <div class="relative">
+          <div class="relative">
+            <input
+              #passwordInput
+              class="form-input w-full"
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              (focus)="handleFocus()"
+              (blur)="handleBlur()"
+              id="password"
+              name="password"
+              autocomplete="new-password"
+              required
+              formControlName="password"
+              aria-label="Contraseña"
+              minlength="8"
+            />
+            <button
+              type="button"
+              class="flex items-center justify-center absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              (click)="togglePasswordVisibility()"
+              aria-label="Mostrar/ocultar contraseña"
+            >
+              <ng-container *ngIf="isPasswordVisible; else hidePassword">
+                <i class="material-symbols-rounded w-6 h-6">visibility</i>
+              </ng-container>
+              <ng-template #hidePassword>
+                <i class="material-symbols-rounded w-6 h-6"
+                  >visibility_off</i
+                >
+              </ng-template>
+            </button>
+            <div
+              #passwordHints
+              id="password-hints"
+              [@slideInOut]="animationState"
+              [ngClass]="{
+                'pointer-events-auto': animationState !== 'hidden',
+                'pointer-events-none': animationState === 'hidden',
+              }"
+              class="absolute z-10 w-full bg-white shadow-md rounded-lg p-4 bottom-full mb-2"
+            >
+              <div>
+                <span class="text-sm text-gray-800">Nivel:&Tab;</span>
+                <span
+                  data-hs-strong-password-hints-weakness-text='["", "Débil", "Media", "Fuerte", "Muy Fuerte", "Super Fuerte"]'
+                  class="text-sm font-semibold text-gray-800"
+                ></span>
+              </div>
+              <div
+                data-hs-strong-password='{"target": "#password","stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-primary h-2 flex-auto rounded-full bg-secondary opacity-50 mx-1", "hints": "#password-hints", "minLength": "8", "mode": "popover", "specialCharactersSet": "!@#$%^&*"}'
+                class="flex mt-2 -mx-1"
+              ></div>
+
+              <h4 class="my-2 text-sm font-semibold text-gray-800">
+                La contraseña debe cumplir con los siguientes requisitos:
+              </h4>
+
+              <ul class="space-y-1 text-sm text-gray-500">
+                <li
+                  data-hs-strong-password-hints-rule-text="min-length"
+                  class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
+                >
+                  <span class="hidden" data-check="">
+                    <i class="material-symbols-rounded">check</i>
+                  </span>
+                  <span data-uncheck="">
+                    <i class="material-symbols-rounded">close</i>
+                  </span>
+                  El mínimo número de caracteres es 8.
+                </li>
+                <li
+                  data-hs-strong-password-hints-rule-text="lowercase"
+                  class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
+                >
+                  <span class="hidden" data-check="">
+                    <i class="material-symbols-rounded">check</i>
+                  </span>
+                  <span data-uncheck="">
+                    <i class="material-symbols-rounded">close</i>
+                  </span>
+                  Debe contener al menos una letra minúscula.
+                </li>
+                <li
+                  data-hs-strong-password-hints-rule-text="uppercase"
+                  class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
+                >
+                  <span class="hidden" data-check="">
+                    <i class="material-symbols-rounded">check</i>
+                  </span>
+                  <span data-uncheck="">
+                    <i class="material-symbols-rounded">close</i>
+                  </span>
+                  Debe contener al menos una letra mayúscula.
+                </li>
+                <li
+                  data-hs-strong-password-hints-rule-text="numbers"
+                  class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
+                >
+                  <span class="hidden" data-check="">
+                    <i class="material-symbols-rounded">check</i>
+                  </span>
+                  <span data-uncheck="">
+                    <i class="material-symbols-rounded">close</i>
+                  </span>
+                  Debe contener al menos un número.
+                </li>
+                <li
+                  data-hs-strong-password-hints-rule-text="special-characters"
+                  class="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
+                >
+                  <span class="hidden" data-check="">
+                    <i class="material-symbols-rounded">check</i>
+                  </span>
+                  <span data-uncheck="">
+                    <i class="material-symbols-rounded">close</i>
+                  </span>
+                  Debe contener al menos un carácter especial.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <app-form-error-tooltip
+            [control]="userFormFields['password']"
+            fieldName="password"
+            [patternMessage]="
+              'La contraseña no debe incluir espacios en blanco y solo puede contener letras, números y los siguientes caracteres especiales: !@#$%^&*.'
+            "
+            [multipleErrors]="true"
+          ></app-form-error-tooltip>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
